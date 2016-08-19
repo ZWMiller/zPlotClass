@@ -24,9 +24,9 @@ class zPlot {
     TCanvas* getCanvas(TString);
     TGraph* getTGraph(TString);
 
-    void plotTH1(TString,TCanvas*,int i=0,TString opt="pe");
-    void plotTH2(TString,TCanvas*,int,TString);
-    void plotTH3(TString,TCanvas*,int,TString);
+    void plotTH1(TString,TString,int i=0,TString opt="pe");
+    void plotTH2(TString,TString,int,TString);
+    void plotTH3(TString,TString,int,TString);
 
     void pretty1DHist(TString, int, int);
     void pretty1DHistFill(TString, int, int);

@@ -34,11 +34,13 @@ void zPlot::clearHistVectors()
 void zPlot::addTH1(TString name, TString title, int xBins, int xLow, int xHigh)
 {
   th1.push_back(new TH1F(name, title, xBins, xLow, xHigh));
+  pretty1DHist(name,colors[0],20);
 }
 
 void zPlot::addTH1(TH1* h)
 {
   th1.push_back(h);
+  pretty1DHist(h->GetName(),colors[0],20);
 }
 
 void zPlot::addTH2(TString name, TString title, int xBins, int xLow, int xHigh,int yBins, int yLow, int yHigh)
@@ -66,9 +68,10 @@ void zPlot::addCanvas(TString name, TString title)
   tcanvas.push_back(new TCanvas(name,title,50,50,1050,1050));
 }
 
-void zPlot::plotTH1(TString name, TCanvas* c, int i=0, TString opt="pe")
+void zPlot::plotTH1(TString name, TString cN, int i=0, TString opt="pe")
 {
   TH1* h = getTH1(name);
+  TCanvas* c = getCanvas(cN);
   if(!i)
     c->cd();
   else
@@ -76,9 +79,10 @@ void zPlot::plotTH1(TString name, TCanvas* c, int i=0, TString opt="pe")
   h->Draw(opt);
 }
 
-void zPlot::plotTH2(TString name, TCanvas* c, int i=0, TString opt="pe")
+void zPlot::plotTH2(TString name, TString cN, int i=0, TString opt="colz")
 {
   TH2* h = getTH2(name);
+  TCanvas* c = getCanvas(cN);
   if(!i)
     c->cd();
   else
@@ -86,9 +90,10 @@ void zPlot::plotTH2(TString name, TCanvas* c, int i=0, TString opt="pe")
   h->Draw(opt);
 }
 
-void zPlot::plotTH3(TString name, TCanvas* c, int i=0, TString opt="")
+void zPlot::plotTH3(TString name, TString cN, int i=0, TString opt="")
 {
   TH3* h = getTH3(name);
+  TCanvas* c = getCanvas(cN);
   if(!i)
     c->cd();
   else
