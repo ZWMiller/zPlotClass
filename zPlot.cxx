@@ -63,9 +63,11 @@ void zPlot::addTH3(TH3* h)
   th3.push_back(h);
 }
 
-void zPlot::addCanvas(TString name, TString title)
+void zPlot::addCanvas(TString name, TString title,int x=0,int y=0)
 {
   tcanvas.push_back(new TCanvas(name,title,50,50,1050,1050));
+  if(x || y)
+    getCanvas(name)->Divide(x,y);
 }
 
 void zPlot::plotTH1(TString name, TString cN, int i=0, TString opt="pe")
@@ -93,6 +95,17 @@ void zPlot::plotTH2(TString name, TString cN, int i=0, TString opt="colz")
 void zPlot::plotTH3(TString name, TString cN, int i=0, TString opt="")
 {
   TH3* h = getTH3(name);
+  TCanvas* c = getCanvas(cN);
+  if(!i)
+    c->cd();
+  else
+    c->cd(i);
+  h->Draw(opt);
+}
+
+void zPlot::plotTGraph(TString name, TString cN, int i=0, TString opt="pe")
+{
+  TGraph* h = getTGraph(name);
   TCanvas* c = getCanvas(cN);
   if(!i)
     c->cd();
@@ -288,5 +301,12 @@ void zPlot::saveAllHists(TString folderName="testFolder")
     c1->Clear();
     th3[i]->Draw("");
     c1->SaveAs(Form("%s/%s.gif",folderName.Data(),th3[i]->GetName()));
+  }
+  for(int i=0; i<tgraph.size();i++)
+  {
+    c1->cd();
+    c1->Clear();
+    tgraph[i]->Draw("pe");
+    c1->SaveAs(Form("%s/%s.gif",folderName.Data(),tgraph[i]->GetName()));
   }
 }

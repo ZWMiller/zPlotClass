@@ -14,7 +14,7 @@ class zPlot {
     void addTH2(TH2*);
     void addTH3(TString,TString,int,int,int,int,int,int,int,int,int);
     void addTH3(TH3*);
-    void addCanvas(TString,TString);
+    void addCanvas(TString,TString,int,int);
     void clearHistVectors();
     void makePDF();
     void saveAllHists(TString);
@@ -28,6 +28,7 @@ class zPlot {
     void plotTH1(TString,TString,int i=0,TString opt="pe");
     void plotTH2(TString,TString,int,TString);
     void plotTH3(TString,TString,int,TString);
+    void plotTGraph(TString,TString,int,TString);
 
     void pretty1DHist(TString, int, int);
     void pretty1DHistFill(TString, int, int);
