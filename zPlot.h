@@ -17,6 +17,7 @@ class zPlot {
     void addCanvas(TString,TString);
     void clearHistVectors();
     void makePDF();
+    void saveAllHists(TString);
 
     TH1* getTH1(TString);
     TH2* getTH2(TString);

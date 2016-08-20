@@ -263,3 +263,30 @@ void zPlot::makePDF()
   sprintf(name, "%s.pdf]", filename);
   temp->Print(name);
 }
+
+void zPlot::saveAllHists(TString folderName="testFolder")
+{
+  gSystem->Exec(Form("mkdir -p %s",folderName.Data()));
+  TCanvas* c1 = new TCanvas("c1","c1",50,50,1050,1050);
+  for(int i=0; i<th1.size();i++)
+  {
+    c1->cd();
+    c1->Clear();
+    th1[i]->Draw("pe");
+    c1->SaveAs(Form("%s/%s.gif",folderName.Data(),th1[i]->GetName()));
+  }
+  for(int i=0; i<th2.size();i++)
+  {
+    c1->cd();
+    c1->Clear();
+    th2[i]->Draw("colz");
+    c1->SaveAs(Form("%s/%s.gif",folderName.Data(),th2[i]->GetName()));
+  }
+  for(int i=0; i<th3.size();i++)
+  {
+    c1->cd();
+    c1->Clear();
+    th3[i]->Draw("");
+    c1->SaveAs(Form("%s/%s.gif",folderName.Data(),th3[i]->GetName()));
+  }
+}

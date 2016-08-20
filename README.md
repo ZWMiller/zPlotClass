@@ -9,7 +9,8 @@ This is a class that is designed to handle histograms and TGraphs from analyses 
 
 everytime, you can just say: makeHistPretty() and it can be done. Also, when it comes time to output the plots, instead of having to find all the canvases and make sure they are drawn, you can just say-> makePDF() and all canvases are put into a PDF. The design is to mazimize portability between codes... so instead of re-writing the functions for making nicer plots, you just import the class and use it to manage your histograms.
 
-An example macro is shown in testHist.C.
+An example macro is shown in testHist.C, which shows how to include the class
+into macros (if you aren't compiling, you must include both .h and .cxx).
 
 ##Extra Note:
 int i=1;

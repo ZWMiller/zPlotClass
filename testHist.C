@@ -27,4 +27,5 @@ void testHist()
   zP->plotTH2("2Dtest","can",2);
   zP->plotTH2("2Dtest","2dcan");
   zP->makePDF();
+  zP->saveAllHists("testFolder2");
 }
