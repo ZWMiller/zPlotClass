@@ -9,14 +9,18 @@ void testHist()
 
   // create the histograms and canvii. There are two methods for adding hists
   // demonstrated below.
-  zP->addTH1("test","Random Test;x;y",1000,-1,1);
+  zP->addTH1("test","Random Test;x;y",100,-1,1);
+  zP->addTH1("test2","Random Test;x;y",100,-1,1);
   zP->addTH2("2Dtest","Random Test;x;y",1000,-1,1,1000,-1,1);
   TH3F* dimtest = new TH3F("3Dtest","Random Test;x;y;z",100,-1,1,100,-1,1,100,-1,1);
   zP->addTH3(dimtest);
-  // the integers determine how many segments a canvas has
+
+  // the integers determine how many segments a canvas has, 1x2 will have 2 vertical
+  // segments and a single horizontal segment.
   zP->addCanvas("can","test",1,2);
-  zP->addCanvas("2dcan","test2d");
-  zP->addCanvas("3dcan","test3d",2,1);
+  zP->addCanvas("3dcan","test3d",1,1);
+  zP->addCanvas("proj","Projection of 3D",1,1);
+
 
   // Generate some data and store in histograms. Each fill can also be filled with
   // some weighting. This is demonstrated in the 3D fill.
@@ -29,23 +33,36 @@ void testHist()
     z = gRandom->Gaus(0,0.2);
     w = gRandom->Rndm();
     zP->fillTH1("test",x);
+    zP->fillTH1("test2",x);
     zP->fillTH2("2Dtest",x,y);
     zP->fillTH3("3Dtest",x,y,z,w);
   }
 
-  // An example of how to manipulate a histogram, I get the 3D hist and project
-  // it to a new 1D hist which is added to TH1 vector for later plotting.
-  zP->addTH1(zP->getTH3("3Dtest")->ProjectionZ("3dtest_zProj"));
+  zP->getTH1("test2")->SetMarkerStyle(0);
+  zP->getTH1("test2")->SetMarkerSize(1);
+  zP->getTH1("test2")->SetMarkerColor(kBlack);
+  zP->getTH1("test2")->SetLineColor(kBlack);
 
-  // No manage the plotting. Here, I've run the prettying function to change the color and marker
-  // style of the projected plot
+  // An example of how to manipulate a histogram, I get the 3D hist and project
+  // it to a single axis as a new 1D hist which is added to TH1 vector for 
+  // later plotting.
+  zP->addTH1(zP->getTH3("3Dtest")->ProjectionZ("3dtest_zProj"));
+  zP->getTH1("3dtest_zProj")->SetTitle("Projection of 3D to Z Axis;Z;Counts");
+
+  // Now manage the plotting. Here, I've run the prettying function to change the color and marker
+  // style of the projected plot. In the plot functions, the number tells which portion of the canvas
+  // to put the plot in. 
   zP->pretty1DHist("3dtest_zProj",zP->colors[2],22);
+  zP->pretty1DHist("test",zP->colors[2],20);
   zP->plotTH1("test","can",1);
-  zP->getTH1("test")->Fit("gaus");
-  zP->plotTH2("2Dtest","can",2);
-  zP->plotTH2("2Dtest","2dcan");
+  zP->plotTH1("test2","can",2);
+  //zP->getTH1("test")->Fit("gaus");
+  //zP->plotTH2("2Dtest","can",2);
   zP->plotTH3("3Dtest","3dcan",1);
-  zP->plotTH1("3dtest_zProj","3dcan",2);
+  zP->plotTH1("3dtest_zProj","proj",1);
+  // Make an output PDF called testFile.pdf (name from zP creation)
+  // Also make a folder with all the plots saved as .gif files.
   zP->makePDF();
   zP->saveAllHists("testFolder2");
+  zP->saveAllToFile();
 }

@@ -18,6 +18,8 @@ class zPlot {
     void clearHistVectors();
     void makePDF();
     void saveAllHists(TString);
+    void saveAllToFile();
+    void saveAllToFile(TString);
 
     TH1* getTH1(TString);
     TH2* getTH2(TString);

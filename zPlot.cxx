@@ -310,3 +310,31 @@ void zPlot::saveAllHists(TString folderName="testFolder")
     c1->SaveAs(Form("%s/%s.gif",folderName.Data(),tgraph[i]->GetName()));
   }
 }
+
+void zPlot::saveAllToFile()
+{
+  TString name = outfileName+".root";
+  saveAllToFile(name);
+}
+
+void zPlot::saveAllToFile(TString fileName)
+{
+  TFile* f = new TFile(fileName,"RECREATE");
+  for(int i=0; i<th1.size();i++)
+  {
+    th1[i]->Write();
+  }
+  for(int i=0; i<th2.size();i++)
+  {
+    th2[i]->Write();
+  }
+  for(int i=0; i<th3.size();i++)
+  {
+    th3[i]->Write();
+  }
+  for(int i=0; i<tgraph.size();i++)
+  {
+    tgraph[i]->Write();
+  }
+  f->Close();
+}
